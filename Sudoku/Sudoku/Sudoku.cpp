@@ -1,20 +1,78 @@
-// Sudoku.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+#include "Sudoku.h"
+#include "Tools.h"
 
 #include <iostream>
 
-int main()
+Game::Game()
 {
-    std::cout << "Hello World!\n";
+	
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+Game::~Game()
+{
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void Game::Init()
+{
+	for (size_t row = 0; row < myBoard.size(); row++)
+	{
+		for (size_t col = 0; col < myBoard[row].size(); col++)
+		{
+			myBoard[row][col] = 0;
+		}
+	}
+}
+
+int Game::Update()
+{
+	std::system("PAUSE");
+	return 1;
+}
+
+void Game::Draw() const
+{
+	DrawBoard(10, 10);
+}
+
+void Game::DrawBoard(int x, int y) const
+{
+	DrawBorder(x, y);
+
+	for (size_t row = 0; row < myBoard.size() / 3; row++)
+	{
+		for (size_t col = 0; col < myBoard[row].size() / 3; col++)
+		{
+			DrawBox(x + col * 8, y + 1 + row * 4);
+		}
+
+		DrawBorder(x, y + (row + 1) * 4);
+	}
+}
+
+void Game::DrawBorder(int x, int y) const
+{
+	Cursor::SetCursorPos(x, y);
+
+	for (size_t i = 0; i < myBoard.size() - 1; i++)
+	{
+		std::cout << "===";
+	}
+	std::cout << "=" << std::endl;
+}
+
+void Game::DrawBox(int x, int y) const
+{
+	size_t size = myBoard.size() / 3;
+	for (size_t row = 0; row < size; row++)
+	{
+		Cursor::SetCursorPos(x, y + row);
+		std::cout << "#";
+		for (size_t col = 0; col < size; col++)
+		{
+			std::cout << "| ";
+		}
+		std::cout << "|#" << std::endl;
+	} 
+}
+
+
