@@ -1,19 +1,25 @@
 #include "Sudoku.h"
 #include "Tools.h"
 
+#include "Player.h"
+
 #include <iostream>
+#include <string>
 
-Game::Game()
+Sudoku::Sudoku()
 {
-	
+	myBoard = {};
+	myPlayer = nullptr;
 }
 
-Game::~Game()
+Sudoku::~Sudoku()
 {
 }
 
-void Game::Init()
+void Sudoku::Init(Player* aPlayer)
 {
+	myPlayer = aPlayer;
+
 	for (size_t row = 0; row < myBoard.size(); row++)
 	{
 		for (size_t col = 0; col < myBoard[row].size(); col++)
@@ -23,33 +29,37 @@ void Game::Init()
 	}
 }
 
-int Game::Update()
+int Sudoku::Update()
 {
-	std::system("PAUSE");
+	myPlayer->Move(myBoard);
+
+	myPlayer->Place();
+
 	return 1;
 }
 
-void Game::Draw() const
+void Sudoku::Draw() const
 {
 	DrawBoard(10, 10);
 }
 
-void Game::DrawBoard(int x, int y) const
+void Sudoku::DrawBoard(int x, int y) const
 {
 	DrawBorder(x, y);
 
-	for (size_t row = 0; row < myBoard.size() / 3; row++)
+	int size = static_cast<int>(myBoard.size()) / 3;
+	for (int row = 0; row < size; row++)
 	{
-		for (size_t col = 0; col < myBoard[row].size() / 3; col++)
+		for (int col = 0; col < size; col++)
 		{
-			DrawBox(x + col * 8, y + 1 + row * 4);
+			DrawBox(x + col * 8, y + 1 + row * 4, myBoard[col + row * size]);
 		}
 
 		DrawBorder(x, y + (row + 1) * 4);
 	}
 }
 
-void Game::DrawBorder(int x, int y) const
+void Sudoku::DrawBorder(int x, int y) const
 {
 	Cursor::SetCursorPos(x, y);
 
@@ -60,16 +70,16 @@ void Game::DrawBorder(int x, int y) const
 	std::cout << "=" << std::endl;
 }
 
-void Game::DrawBox(int x, int y) const
+void Sudoku::DrawBox(int x, int y, const std::array<int, 9>& aBox) const
 {
-	size_t size = myBoard.size() / 3;
-	for (size_t row = 0; row < size; row++)
+	int size = static_cast<int>(myBoard.size()) / 3;
+	for (int row = 0; row < size; row++)
 	{
 		Cursor::SetCursorPos(x, y + row);
 		std::cout << "#";
-		for (size_t col = 0; col < size; col++)
+		for (int col = 0; col < size; col++)
 		{
-			std::cout << "| ";
+			std::cout << "|" << std::to_string(aBox[col + row * size]);
 		}
 		std::cout << "|#" << std::endl;
 	} 

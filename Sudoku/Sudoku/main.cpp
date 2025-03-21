@@ -2,6 +2,7 @@
 //
 
 #include "Sudoku.h"
+#include "Human.h"
 
 #include <cstdlib>
 #include <crtdbg.h>
@@ -9,9 +10,10 @@
 int main()
 {
     {
-        Game game;
+        Sudoku game;
+        Human human;
 
-        game.Init();
+        game.Init(&human);
 
         int code = 1;
         while (code != 0)

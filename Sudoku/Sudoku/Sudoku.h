@@ -3,21 +3,26 @@
 
 #include <array>
 
-class Game
+class Player;
+
+class Sudoku
 {
 	public:
-		Game();
-		~Game();
+		Sudoku();
+		~Sudoku();
 
-		void Init();
+		void Init(Player* aPlayer);
 		int Update();
 		void Draw() const;
 	private:
-		std::array<std::array<int, 9>, 9> myBoard;
-
 		void DrawBoard(int x, int y) const;
 		void DrawBorder(int x, int y) const;
-		void DrawBox(int x, int y) const;
+		void DrawBox(int x, int y, const std::array<int, 9>& aBox) const;
+
+	private:
+		std::array<std::array<int, 9>, 9> myBoard; // 9 integer in one box; 9 boxes in one board;
+		
+		Player* myPlayer;
 };
 
 #endif // !SUDOKU_H_
